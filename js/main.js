@@ -114,24 +114,33 @@
     return prize.name;
   }
 
-  function handToText(prize) {
+  function handToText(prize, qty) {
+    qty = qty == null ? 1 : qty;
+    var n = String(qty);
     if (!prize || prize.id === "miss") {
       return "Nothing to hand out — next spin!";
     }
     if (prize.id === "bonus") {
       return "No product — BONUS TILE → tap for FREE SPIN";
     }
+    if (prize.id === "single") {
+      return (
+        "Hand them: " +
+        n +
+        "× AR/FA single — JP, sometimes EN (mystery pull)"
+      );
+    }
     if (prize.id === "pack") {
-      return "Hand them: 1 " + stockLabel("pack");
+      return "Hand them: " + n + "× " + stockLabel("pack");
     }
     if (prize.id === "bundle") {
-      return "Hand them: 1 " + stockLabel("bundle");
+      return "Hand them: " + n + "× " + stockLabel("bundle");
     }
     if (prize.id === "etb") {
-      return "Hand them: 1 " + stockLabel("etb");
+      return "Hand them: " + n + "× " + stockLabel("etb");
     }
     if (prize.id === "box") {
-      return "Hand them: 1 " + stockLabel("box") + " — JACKPOT!";
+      return "Hand them: " + n + "× " + stockLabel("box") + " — JACKPOT!";
     }
     return prize.handTo;
   }
@@ -2119,7 +2128,7 @@
           (id === "bonus"
             ? extra
             : '<div style="color:var(--muted);font-size:0.8rem;font-weight:600">' +
-              handToText(row.prize) +
+              handToText(row.prize, row.n) +
               "</div>" +
               extra) +
           '</span><span class="summary-ico ' +
