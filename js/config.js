@@ -39,7 +39,7 @@ TCG.PRIZES = [
   {
     id: "single",
     name: "AR / Full Art",
-    short: "? SINGLE",
+    short: "SINGLE",
     handTo: "Hand them: 1 AR/FA single — JP, sometimes EN (mystery pull)",
     blurb: "Mystery AR/FA pull · JP, sometimes EN",
     cogs: 2,
