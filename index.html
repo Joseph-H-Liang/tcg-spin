@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0b1220" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="screen-orientation" content="portrait" />
+    <title>TCG SPIN — Mobile</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/mobile.css" />
+  </head>
+  <body class="mobile-app">
+    <div id="app">
+      <div class="bg-grid" aria-hidden="true"></div>
+      <div class="bg-glow" aria-hidden="true"></div>
+
+      <!-- Rotate to portrait -->
+      <div id="orient-gate" class="orient-gate" hidden aria-live="polite">
+        <div class="orient-card">
+          <div class="orient-phone" aria-hidden="true"></div>
+          <p class="orient-title">Turn your phone</p>
+          <p class="orient-copy">TCG SPIN Mobile is built for portrait.</p>
+        </div>
+      </div>
+
+      <!-- Attract / idle -->
+      <section id="screen-attract" class="screen active">
+        <p class="eyebrow">CARD SHOW · MOBILE</p>
+        <h1 class="brand">TCG<span>SPIN</span></h1>
+        <p class="tagline">3×3 · match three · BONUS tile</p>
+        <div class="attract-grid" aria-hidden="true">
+          <i class="ag miss"></i><i class="ag single"></i><i class="ag miss"></i>
+          <i class="ag single"></i><i class="ag single"></i><i class="ag pack"></i>
+          <i class="ag miss"></i><i class="ag bundle"></i><i class="ag miss"></i>
+          <span class="ag-line"></span>
+          <span class="ag-bonus-chip">+ BONUS</span>
+        </div>
+        <button type="button" class="pulse-cta pulse-cta-btn" id="btn-attract-start">
+          TAP TO START
+        </button>
+        <p class="demo-toggle" id="demo-toggle" aria-live="polite">
+          <button type="button" class="text-btn demo-toggle-btn" id="btn-demo-toggle">
+            Demo <strong id="demo-toggle-state">ON</strong>
+          </button>
+        </p>
+        <ul class="prize-legend">
+          <li><i class="swatch prize-miss"></i> Miss</li>
+          <li><i class="swatch prize-bonus"></i> Bonus</li>
+          <li><i class="swatch prize-single"></i> ? Single</li>
+          <li><i class="swatch prize-pack"></i> Pack</li>
+          <li><i class="swatch prize-bundle"></i> Bundle</li>
+          <li><i class="swatch prize-etb"></i> ETB</li>
+          <li><i class="swatch prize-box"></i> Box</li>
+        </ul>
+      </section>
+
+      <!-- Terms / house rules -->
+      <section id="screen-tos" class="screen">
+        <p class="eyebrow">BEFORE YOU PLAY</p>
+        <h2 class="brand-sm">TCG<span>SPIN</span></h2>
+        <p class="tagline">Read the rules · then agree to continue</p>
+
+        <div class="tos-panel">
+          <div class="tos-scroll" id="tos-scroll" tabindex="0">
+            <h3>House rules</h3>
+            <ul class="tos-list">
+              <li><strong>Amusement only.</strong> This is a card-show skill/amusement machine for sealed TCG product. Results are random within the posted odds.</li>
+              <li><strong>Play within your limits.</strong> Set a budget and stick to it. Do not play if it is illegal for you to do so where you are.</li>
+              <li><strong>All sales final.</strong> Spins are non-refundable once started. No cash refunds for misses or prizes you do not want.</li>
+              <li><strong>No substitutions.</strong> You receive the prize shown (or today’s labeled stock for that prize tier). We do not swap for other product, cash, or store credit.</li>
+              <li><strong>Mystery singles.</strong> “? SINGLE” is a random AR/FA-style pull from our box (JP, sometimes EN). Condition and exact card vary.</li>
+              <li><strong>Bonus tile.</strong> A bonus tile may appear on a paid spin (including with a win). It awards one free respin that does not consume a 6-pack slot. Free respins cannot award another bonus.</li>
+              <li><strong>Operator decision final.</strong> Disputes, machine errors, or unclear outcomes are resolved by the event operator on site.</li>
+              <li><strong>Not affiliated.</strong> This attraction is an independent card-show amusement. It is not affiliated with, endorsed by, or sponsored by Nintendo, Creatures, GAME FREAK, The Pokémon Company, or related rights holders. Pokémon and related names/marks are trademarks of their respective owners.</li>
+              <li><strong>Transparency.</strong> Live odds for this machine are listed below and also available from the menu.</li>
+            </ul>
+
+            <h3>$3 Single Spin odds</h3>
+            <table class="odds-table tos-odds" id="tos-odds-single">
+              <thead>
+                <tr><th>Prize</th><th>Chance</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <p class="odds-note" id="tos-odds-note-single"></p>
+
+            <h3>6-for-$15 companion spin odds</h3>
+            <p class="odds-sub">Plus 1 guaranteed AR/FA single in the pack</p>
+            <table class="odds-table tos-odds" id="tos-odds-pack">
+              <thead>
+                <tr><th>Prize</th><th>Chance</th></tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <p class="odds-note" id="tos-odds-note-pack"></p>
+
+            <p class="tos-foot">
+              By tapping <strong>I Agree</strong> you confirm you have read these rules and the odds, and you agree to play under them.
+            </p>
+          </div>
+
+          <div class="tos-actions">
+            <button type="button" class="primary-btn" id="btn-tos-agree">
+              I AGREE · CONTINUE
+            </button>
+            <p class="hint">Scroll for full odds · Back to cancel</p>
+            <button type="button" class="text-btn" id="btn-tos-back">← Back</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Theme select -->
+      <section id="screen-theme" class="screen">
+        <p class="eyebrow">PICK YOUR PATH</p>
+        <h2 class="brand-sm">TCG<span>SPIN</span></h2>
+        <p class="tagline">Same odds · pick a mascot</p>
+        <div class="theme-grid" id="theme-grid">
+          <button type="button" class="theme-card theme-fire" data-theme="fire">
+            <img class="theme-sprite" src="assets/themes/fire.gif" alt="Charmander" />
+            <span class="theme-name">FIRE</span>
+            <span class="theme-pokemon">Charmander</span>
+            <span class="theme-stat" data-theme-stat="fire">no wins yet</span>
+          </button>
+          <button type="button" class="theme-card theme-water" data-theme="water">
+            <img class="theme-sprite" src="assets/themes/water.gif" alt="Squirtle" />
+            <span class="theme-name">WATER</span>
+            <span class="theme-pokemon">Squirtle</span>
+            <span class="theme-stat" data-theme-stat="water">no wins yet</span>
+          </button>
+          <button type="button" class="theme-card theme-grass" data-theme="grass">
+            <img class="theme-sprite" src="assets/themes/grass.gif" alt="Bulbasaur" />
+            <span class="theme-name">GRASS</span>
+            <span class="theme-pokemon">Bulbasaur</span>
+            <span class="theme-stat" data-theme-stat="grass">no wins yet</span>
+          </button>
+          <button type="button" class="theme-card theme-ghost" data-theme="ghost">
+            <img class="theme-sprite" src="assets/themes/ghost.gif" alt="Gengar" />
+            <span class="theme-name">GHOST</span>
+            <span class="theme-pokemon">Gengar</span>
+            <span class="theme-stat" data-theme-stat="ghost">no wins yet</span>
+          </button>
+          <button type="button" class="theme-card theme-normal" data-theme="normal">
+            <img class="theme-sprite" src="assets/themes/normal.gif" alt="Snorlax" />
+            <span class="theme-name">NORMAL</span>
+            <span class="theme-pokemon">Snorlax</span>
+            <span class="theme-stat" data-theme-stat="normal">no wins yet</span>
+          </button>
+          <button type="button" class="theme-card theme-electric" data-theme="electric">
+            <img class="theme-sprite" src="assets/themes/electric.gif" alt="Pikachu" />
+            <span class="theme-name">ELECTRIC</span>
+            <span class="theme-pokemon">Pikachu</span>
+            <span class="theme-stat" data-theme-stat="electric">no wins yet</span>
+          </button>
+        </div>
+        <button type="button" class="text-btn nav-back" id="btn-theme-back">← Back</button>
+      </section>
+
+      <!-- Mode select -->
+      <section id="screen-mode" class="screen">
+        <p class="eyebrow">CHOOSE A PLAY</p>
+        <h2 class="brand-sm">TCG<span>SPIN</span></h2>
+        <p class="theme-pill" id="mode-theme-pill">FIRE</p>
+        <div class="mode-grid">
+          <button type="button" class="mode-card" id="btn-single" data-mode="single">
+            <span class="mode-price">$3</span>
+            <span class="mode-title">Single Spin</span>
+            <span class="mode-desc">One shot at sealed product</span>
+          </button>
+          <button type="button" class="mode-card featured" id="btn-ten" data-mode="ten">
+            <span class="mode-badge">BEST DEAL</span>
+            <span class="mode-price">$15</span>
+            <span class="mode-title">Spin Pack</span>
+            <span class="mode-desc">6 spins · <strong>guaranteed AR/FA</strong> · bonus freebies</span>
+          </button>
+        </div>
+        <button type="button" class="text-btn nav-back" id="btn-mode-back">← Back</button>
+      </section>
+
+      <!-- Machine -->
+      <section id="screen-machine" class="screen">
+        <div class="machine-layout">
+          <div class="machine-main">
+            <div class="machine-frame">
+              <header class="machine-top">
+                <div class="brand-sm">TCG<span>SPIN</span></div>
+                <div class="active-theme-badge" id="active-theme-badge">🔥 FIRE</div>
+                <div class="meter" id="spin-meter">
+                  <span id="meter-label">SPIN</span>
+                  <strong id="meter-value">1 / 1</strong>
+                </div>
+                <button type="button" class="icon-btn" id="btn-open-menu" aria-label="Menu">☰</button>
+              </header>
+
+              <div class="machine-meta">
+                <div class="day-counter" id="day-counter">
+                  <span class="day-counter-label">TODAY</span>
+                  <strong class="day-counter-value" id="day-spins">0</strong>
+                  <span class="day-counter-sub">spins</span>
+                </div>
+                <aside class="evo-rail" id="evo-rail" aria-label="Evolution line"></aside>
+              </div>
+
+              <div class="machine-lights" aria-hidden="true">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+              </div>
+              <div class="grid-wrap" id="grid-wrap">
+                <div class="slot-grid" id="slot-grid"></div>
+                <svg class="win-lines" id="win-lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"></svg>
+              </div>
+              <p class="payline-hint">Match 3 · any direction · BONUS = free spin</p>
+              <div class="drought-bar" id="drought-bar" aria-label="Spins since last prize">
+                <p class="drought-title">Spins since last</p>
+                <div class="drought-grid" id="drought-grid"></div>
+              </div>
+            </div>
+
+            <button type="button" class="spin-btn" id="btn-spin" aria-label="Spin">
+              <span class="spin-btn-ring"></span>
+              <span class="spin-btn-copy">
+                <span class="spin-btn-status" id="machine-status">Tap to SPIN</span>
+                <span class="spin-btn-label">SPIN</span>
+              </span>
+            </button>
+
+            <button type="button" class="text-btn nav-back machine-exit" id="btn-machine-exit">
+              End player · home
+            </button>
+          </div>
+
+          <!-- Hidden on mobile play; kept for JS updateThemeBoard -->
+          <aside class="side-rail" aria-hidden="true" hidden>
+            <div class="theme-board" id="theme-board"></div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- Starter win banner -->
+      <div id="win-banner" class="win-banner" hidden aria-hidden="true">
+        <div class="win-banner-inner">
+          <img id="win-banner-sprite" class="win-banner-sprite" alt="" />
+          <div class="win-banner-text">
+            <span id="win-banner-call" class="win-banner-call"></span>
+            <span id="win-banner-prize" class="win-banner-prize"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Result overlay -->
+      <div id="result-overlay" class="overlay" hidden>
+        <div class="result-card" id="result-card">
+          <p class="result-eyebrow" id="result-eyebrow">YOU WON</p>
+          <div class="result-symbol" id="result-symbol"></div>
+          <h2 class="result-title" id="result-title">Booster Pack</h2>
+          <p class="result-handto" id="result-handto">Hand them: 1 sealed booster pack</p>
+          <p class="result-next" id="result-next">Tap for next spin</p>
+        </div>
+      </div>
+
+      <!-- Ten-pack summary -->
+      <div id="summary-overlay" class="overlay" hidden>
+        <div class="summary-card">
+          <p class="eyebrow">6-SPIN COMPLETE</p>
+          <h2>Here's what they won</h2>
+          <ul class="summary-list" id="summary-list"></ul>
+          <p class="summary-hand">Gather these prizes, then tap for a new player.</p>
+          <button type="button" class="primary-btn" id="btn-summary-done">DONE · NEW PLAYER</button>
+        </div>
+      </div>
+
+      <!-- Mobile menu sheet -->
+      <div id="menu-overlay" class="overlay menu-overlay" hidden>
+        <div class="menu-sheet">
+          <header class="odds-header">
+            <div>
+              <p class="eyebrow">OPERATOR</p>
+              <h2>Menu</h2>
+            </div>
+            <button type="button" class="text-btn" id="btn-close-menu">Close</button>
+          </header>
+          <div class="menu-actions">
+            <button type="button" class="primary-btn ghost" id="btn-menu-odds">Odds &amp; stock</button>
+            <button type="button" class="primary-btn ghost" id="btn-menu-log">Today's results</button>
+            <button type="button" class="primary-btn ghost" id="btn-menu-op">Operator panel</button>
+            <button type="button" class="primary-btn ghost" id="btn-menu-mute">Mute sounds</button>
+            <button type="button" class="primary-btn ghost" id="btn-menu-home">Back to attract</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Odds / today's stock -->
+      <div id="odds-overlay" class="overlay odds-overlay" hidden>
+        <div class="odds-card" id="odds-card">
+          <header class="odds-header">
+            <div>
+              <p class="eyebrow">OPERATOR</p>
+              <h2>Odds &amp; Today's Stock</h2>
+            </div>
+            <button type="button" class="text-btn" id="btn-close-odds">Close</button>
+          </header>
+
+          <div class="odds-layout">
+            <section class="odds-section">
+              <h3>$3 Single Spin</h3>
+              <table class="odds-table" id="odds-table-single">
+                <thead>
+                  <tr><th>Prize</th><th>Chance</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <p class="odds-note" id="odds-any-single"></p>
+            </section>
+
+            <section class="odds-section">
+              <h3>6-for-$15 companion spins</h3>
+              <p class="odds-sub">+ 1 guaranteed AR/FA single (JP · sometimes EN)</p>
+              <table class="odds-table" id="odds-table-pack">
+                <thead>
+                  <tr><th>Prize</th><th>Chance</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <p class="odds-note" id="odds-any-pack"></p>
+            </section>
+
+            <section class="odds-section stock-section">
+              <h3>Hand out today</h3>
+              <p class="odds-sub">Shown on wins · saved for the day</p>
+              <label class="stock-field">
+                <span>Pack</span>
+                <input id="stock-pack" type="text" placeholder="e.g. Surging Sparks booster" autocomplete="off" />
+              </label>
+              <label class="stock-field">
+                <span>Bundle</span>
+                <input id="stock-bundle" type="text" placeholder="e.g. Prismatic Evolutions bundle" autocomplete="off" />
+              </label>
+              <label class="stock-field">
+                <span>ETB</span>
+                <input id="stock-etb" type="text" placeholder="e.g. Destined Rivals ETB" autocomplete="off" />
+              </label>
+              <label class="stock-field">
+                <span>Booster Box</span>
+                <input id="stock-box" type="text" placeholder="e.g. Journey Together booster box" autocomplete="off" />
+              </label>
+              <p class="stock-preview" id="stock-preview"></p>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- Day log -->
+      <div id="log-overlay" class="overlay log-overlay" hidden>
+        <div class="log-card" id="log-card">
+          <header class="odds-header">
+            <div>
+              <p class="eyebrow">OPERATOR</p>
+              <h2>Today's Results</h2>
+            </div>
+            <button type="button" class="text-btn" id="btn-close-log">Close</button>
+          </header>
+
+          <div class="log-totals">
+            <section class="odds-section">
+              <h3>$3 Single spins</h3>
+              <table class="odds-table log-tier-table" id="log-table-single"></table>
+            </section>
+            <section class="odds-section">
+              <h3>6-spin packs</h3>
+              <table class="odds-table log-tier-table" id="log-table-pack"></table>
+            </section>
+          </div>
+
+          <section class="log-activity">
+            <h3>Activity log</h3>
+            <p class="odds-sub">Newest first · 6-packs show tier totals + each spin time</p>
+            <div class="log-feed" id="log-feed"></div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Operator panel -->
+      <aside id="operator" class="operator" hidden>
+        <header>
+          <strong>Operator</strong>
+          <button type="button" id="btn-close-op" class="text-btn">Close</button>
+        </header>
+        <div class="op-stats">
+          <div><span>Session</span><strong id="op-spins">0</strong></div>
+          <div><span>Today</span><strong id="op-day-spins">0</strong></div>
+        </div>
+        <div class="op-wins" id="op-wins"></div>
+        <div class="op-themes" id="op-themes"></div>
+        <div class="op-drought" id="op-drought"></div>
+        <div class="op-actions">
+          <button type="button" id="btn-mute" class="primary-btn ghost">Mute sounds</button>
+          <button type="button" id="btn-reset-session" class="primary-btn ghost">Reset session</button>
+          <button type="button" id="btn-fullscreen" class="primary-btn ghost">Fullscreen</button>
+        </div>
+        <p class="op-note">Portrait mobile build. Use the ☰ menu for odds, log, and operator tools.</p>
+      </aside>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/themes.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/mobile.js"></script>
+  </body>
+</html>
