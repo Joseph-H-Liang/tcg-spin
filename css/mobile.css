@@ -439,12 +439,33 @@ body.mobile-app .grid-cell {
   border-radius: 10px;
 }
 
+/* Stack icon + label so short prize names stay readable */
+body.mobile-app .cell-item {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.12rem;
+  padding: 0.15rem 0.2rem;
+}
+
 body.mobile-app .cell-item .ico {
-  transform: scale(0.38);
+  transform: scale(0.32);
+  transform-origin: center center;
+  margin: -0.35rem 0;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
 }
 
 body.mobile-app .cell-item .lbl {
-  font-size: clamp(0.55rem, 3.2cqi, 0.78rem);
+  font-size: clamp(0.58rem, 4.2cqi, 0.72rem);
+  letter-spacing: 0.02em;
+  line-height: 1.05;
+  max-width: 100%;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+  flex-shrink: 0;
 }
 
 body.mobile-app .payline-hint {
